@@ -8,10 +8,12 @@ require("@nomicfoundation/hardhat-chai-matchers")
 
 import * as dotenv from 'dotenv'
 dotenv.config()
-
+const ZERO_PRIVATE_KEY ='0x0000000000000000000000000000000000000000000000000000000000000000'
 const INFURA_API_KEY = process.env.INFURA_API_KEY ?? ''
-const MAINNET_PRIVATE_KEY = process.env.MAINNET_PRIVATE_KEY ?? ''
-const TESTNET_PRIVATE_KEY = process.env.TESTNET_PRIVATE_KEY ?? ''
+const MAINNET_PRIVATE_KEY = process.env.MAINNET_PRIVATE_KEY ?? ZERO_PRIVATE_KEY
+const TESTNET_PRIVATE_KEY = process.env.TESTNET_PRIVATE_KEY ??  ZERO_PRIVATE_KEY
+const XDCAPOTHEM_PRIVATE_KEY = process.env.XDCAPOTHEM_PRIVATE_KEY ??  ZERO_PRIVATE_KEY
+const XDC_PRIVATE_KEY = process.env.XDC_PRIVATE_KEY ??  ZERO_PRIVATE_KEY
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY ?? ''
 const BSCSCAN_API_KEY = process.env.BSCSCAN_API_KEY ?? ''
 const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY ?? ''
@@ -24,6 +26,10 @@ const ARBITRUM_TESTNET_URL = process.env.ARBITRUM_TESTNET_URL ?? ''
 const ARBITRUM_SEPOLIA_URL = process.env.ARBITRUM_SEPOLIA_URL ?? ''
 
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY ?? ''
+
+const XDCAPOTHEM_API_KEY = process.env.XDCAPOTHEM_API_KEY ?? ''
+
+const XDC_API_KEY = process.env.XDC_API_KEY ?? ''
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -130,6 +136,16 @@ const config: HardhatUserConfig = {
       chainId: 84531,
       url: 'https://goerli.base.org',
       accounts: [TESTNET_PRIVATE_KEY]
+    },
+    xdcApothem: {
+      chainId: 51,
+      url: 'https://erpc.apothem.network',
+      accounts: [XDCAPOTHEM_PRIVATE_KEY]
+    },
+    xdc: {
+      chainId: 50,
+      url: 'https://erpc.xinfin.network	',
+      accounts: [XDC_PRIVATE_KEY]
     }
   },
   etherscan: {
@@ -148,7 +164,9 @@ const config: HardhatUserConfig = {
       arbitrumSepolia: ARBITRUM_API_KEY,
       arbitrumOne: ARBITRUM_API_KEY,
       base: BASESCAN_API_KEY,
-      baseGoerli: "PLACEHOLDER_STRING"
+      baseGoerli: "PLACEHOLDER_STRING",
+      xdcapothem: "abc",
+      xdc: "abc"
     },
     customChains: [
       {
@@ -166,7 +184,23 @@ const config: HardhatUserConfig = {
           apiURL: 'https://api-sepolia.arbiscan.io/api',
           browserURL: 'https://sepolia.arbiscan.io/'
 	}
-      }
+      },
+     {
+        network: 'xdcapothem',
+        chainId: 51,
+        urls: {
+                apiURL: 'https://abapi.blocksscan.io/api',
+                browserURL: 'https://apothem.xdcscan.io/'
+  }
+     },
+     {
+      network: 'xdc',
+      chainId: 50,
+      urls: {
+              apiURL: 'https://bapi.blocksscan.io/',
+              browserURL: 'https://xdcscan.io/'
+}
+   }
     ]
   },
   gasReporter: {
